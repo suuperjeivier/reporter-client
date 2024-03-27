@@ -1,7 +1,14 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
+import ReportClient, {fetchUsers} from "@/modules/report-client";
+import { JsonToTable } from "react-json-to-table";
+import {useState} from "react";
+
 
 export default function Home() {
+  const [users, setUsers] = useState([]);
+  fetchUsers().then(u => {if(!users.length) setUsers(u)});
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -28,16 +35,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <ReportClient/>
+      <JsonToTable json={users} />
 
       <div className={styles.grid}>
         <a
